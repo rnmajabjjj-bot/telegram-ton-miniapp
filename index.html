@@ -203,31 +203,39 @@
     document.getElementById('username').innerText = user.first_name;
   }
 
-  function claimSaldo() {
-    tg.HapticFeedback.impactOccurred('medium');
-    tg.showAlert('Saldo berhasil diklaim (demo)');
+  // =========================
+  // NAVIGASI HALAMAN
+  // =========================
+
+  function openTask() {
+    window.location.href = 'task.html';
   }
 
   function openWithdraw() {
-    tg.showAlert('Menu withdraw (buat halaman withdraw.html)');
-  }
-
-  function openTask() {
-    tg.showAlert('Menu dapatkan saldo (task)');
+    window.location.href = 'withdraw.html';
   }
 
   function openReferral() {
-    tg.showAlert('Menu referral');
+    window.location.href = 'referral.html';
   }
 
   function showInfo() {
-    tg.showAlert('Mini App Penghasil Saldo');
+    window.location.href = 'info.html';
   }
+
+  function claimSaldo() {
+    tg.HapticFeedback.impactOccurred('medium');
+    window.location.href = 'task.html';
+  }
+
+  // =========================
+  // TELEGRAM MAIN BUTTON
+  // =========================
 
   tg.MainButton.setText('WITHDRAW SALDO');
   tg.MainButton.color = '#8a2be2';
+  tg.MainButton.onClick(() => {
+    openWithdraw();
+  });
   tg.MainButton.show();
 </script>
-
-</body>
-  </html>

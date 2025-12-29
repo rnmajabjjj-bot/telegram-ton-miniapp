@@ -5,34 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dapatkan Saldo</title>
 
-  <!-- Telegram WebApp -->
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
-
-  <!-- Font -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
   <style>
-    :root {
-      --bg: #000000;
-      --card: #111111;
-      --purple: #8a2be2;
-      --text: #ffffff;
-      --text-dim: #aaaaaa;
-    }
-
-    * { margin:0; padding:0; box-sizing:border-box; font-family:'Inter',sans-serif; }
-    body { background: var(--bg); color: var(--text); padding-bottom:90px; }
-
-    header { padding:20px; display:flex; justify-content:space-between; align-items:center; }
-    header h1 { font-size:1.1rem; }
-    header p { font-size:0.8rem; color: var(--text-dim); }
-
-    .card { margin:15px 20px; background: linear-gradient(135deg,var(--card),#1a0f2e); border-radius:20px; padding:25px; text-align:center; }
-    #adContainer { margin-top:20px; min-height:200px; border:1px solid var(--purple); border-radius:16px; background:#1a0f2e; display:flex; flex-direction:column; align-items:center; justify-content:center; color:var(--text-dim); font-size:0.9rem; }
-
-    .btn-claim { margin-top:20px; padding:12px 25px; border:none; border-radius:10px; background:#8a2be2; color:#fff; font-weight:600; cursor:pointer; }
-
-    .btn-back { margin:20px; padding:12px; width:calc(100%-40px); border-radius:14px; border:none; background: var(--purple); color:#fff; font-weight:600; cursor:pointer; }
+    :root{--bg:#000;--card:#111;--purple:#8a2be2;--text:#fff;--text-dim:#aaa;}
+    *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;}
+    body{background:var(--bg);color:var(--text);padding-bottom:90px;}
+    header{padding:20px;display:flex;justify-content:space-between;align-items:center;}
+    header h1{font-size:1.1rem;}
+    header p{font-size:0.8rem;color:var(--text-dim);}
+    .card{margin:15px 20px;background:linear-gradient(135deg,var(--card),#1a0f2e);border-radius:20px;padding:25px;text-align:center;}
+    #adContainer{margin-top:20px;min-height:200px;border:1px solid var(--purple);border-radius:16px;background:#1a0f2e;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--text-dim);font-size:0.9rem;}
+    .btn-claim{margin-top:20px;padding:12px 25px;border:none;border-radius:10px;background:#8a2be2;color:#fff;font-weight:600;cursor:pointer;}
+    .btn-back{margin:20px;padding:12px;width:calc(100%-40px);border-radius:14px;border:none;background:var(--purple);color:#fff;font-weight:600;cursor:pointer;}
   </style>
 </head>
 <body>
@@ -43,7 +29,7 @@
 </header>
 
 <div class="card">
-  <p>Tekan tombol di bawah untuk mendapatkan saldo Dana</p>
+  <p>Tekan tombol di bawah untuk klaim +200p</p>
   <div id="adContainer">Memuat iklan...</div>
 </div>
 
@@ -54,36 +40,34 @@
   tg.expand();
 
   const user = tg.initDataUnsafe?.user;
-  const userId = user?.id || 0;
   if(user) document.getElementById('username').innerText = user.first_name;
 
   const blockId = "int-20198";
-  let saldo = 0; // contoh saldo awal
 
   function loadAd() {
     const adContainer = document.getElementById("adContainer");
     adContainer.innerHTML = `
-      <div style="padding:20px; color:#fff;">
-        Iklan AdsGram untuk blockId <strong>${blockId}</strong> ditampilkan di sini.
+      <div style="padding:20px;color:#fff;">
+        Iklan blockId <strong>${blockId}</strong>
         <button class="btn-claim" onclick="claimReward()">Claim Saldo +200p</button>
       </div>
     `;
   }
 
   function claimReward() {
-    // Tambah saldo
-    saldo += 200;
+    // Tambah saldo di localStorage
+    let currentSaldo = parseInt(localStorage.getItem('saldo')) || 0;
+    currentSaldo += 200;
+    localStorage.setItem('saldo', currentSaldo);
 
-    // Beri feedback ke user
+    // Feedback & kembali ke dashboard
     tg.HapticFeedback.impactOccurred('medium');
-    tg.showAlert("Saldo berhasil ditambahkan +200p!");
-
-    // Tutup iklan otomatis
+    tg.showAlert("Saldo +200p berhasil ditambahkan!");
     goBack();
   }
 
   function goBack() {
-    window.history.back(); // kembali ke halaman sebelumnya (task)
+    window.location.href = 'index.html';
   }
 
   window.onload = loadAd;

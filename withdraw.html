@@ -1,68 +1,60 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Withdraw Saldo</title>
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <meta charset="UTF-8">
+  <title>Withdraw</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-<style>
-body {
-  background:#000;
-  color:#fff;
-  font-family:Inter,sans-serif;
-}
-.box {
-  background:#111;
-  border:1px solid #8a2be2;
-  border-radius:16px;
-  padding:20px;
-  margin:15px;
-}
-input {
-  width:100%;
-  padding:12px;
-  margin-top:10px;
-  background:#000;
-  border:1px solid #444;
-  border-radius:10px;
-  color:#fff;
-}
-button {
-  width:100%;
-  margin-top:15px;
-  padding:14px;
-  border:none;
-  border-radius:12px;
-  background:#8a2be2;
-  color:white;
-  font-weight:600;
-}
-</style>
+  <style>
+    body {
+      background:#000;
+      color:#fff;
+      font-family:Arial;
+      padding:20px;
+    }
+    h2 { color:#8a2be2; }
+    input, button {
+      width:100%;
+      padding:15px;
+      margin-top:12px;
+      border-radius:12px;
+      border:none;
+      font-size:15px;
+    }
+    input {
+      background:#111;
+      color:#fff;
+      border:1px solid #333;
+    }
+    button {
+      background:#8a2be2;
+      color:#fff;
+      font-weight:bold;
+    }
+  </style>
 </head>
-
 <body>
 
-<h2 style="padding:15px">💸 Withdraw Saldo</h2>
+<h2>Withdraw Saldo</h2>
 
-<div class="box">
-  <label>No DANA</label>
-  <input placeholder="08xxxxxxxxxx">
+<input type="text" placeholder="Nomor DANA">
+<input type="number" placeholder="Jumlah Withdraw">
 
-  <label>Jumlah (Rp)</label>
-  <input placeholder="Minimal 10.000">
-
-  <button onclick="withdraw()">Withdraw</button>
-</div>
+<button onclick="submitWD()">Kirim Withdraw</button>
 
 <script>
-const tg = Telegram.WebApp;
-tg.expand();
+  const tg = window.Telegram.WebApp;
+  tg.expand();
 
-function withdraw(){
-  tg.HapticFeedback.notificationOccurred('success');
-  tg.showAlert('Permintaan withdraw dikirim (demo)');
-}
+  tg.BackButton.show();
+  tg.BackButton.onClick(() => {
+    window.location.href = 'index.html';
+  });
+
+  function submitWD() {
+    tg.showAlert('Withdraw dikirim (demo)');
+  }
 </script>
 
 </body>

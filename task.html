@@ -8,78 +8,54 @@
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
-<!-- Monetag SDK -->
-<script src="//libtl.com/sdk.js" data-zone="10391110" data-sdk="show_10391110"></script>
+<!-- MONETAG SDK (WAJIB DI HEAD) -->
+<script src='//libtl.com/sdk.js' data-zone='10391110' data-sdk='show_10391110'></script>
 
 <style>
 :root{--bg:#000;--card:#111;--purple:#8a2be2;--text:#fff;--text-dim:#aaa;}
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;}
-body{background:var(--bg);color:var(--text);padding-bottom:90px;}
-header{padding:20px;display:flex;justify-content:space-between;align-items:center;}
-header h1{font-size:1.1rem;}
-header p{font-size:0.8rem;color:var(--text-dim);}
-.card{margin:15px 20px;background:linear-gradient(135deg,var(--card),#1a0f2e);border-radius:20px;padding:25px;text-align:center;}
-#adContainer{margin-top:20px;min-height:200px;border:1px solid var(--purple);border-radius:16px;background:#1a0f2e;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--text-dim);font-size:0.9rem;}
-.btn-claim{margin-top:20px;padding:12px 25px;border:none;border-radius:10px;background:#8a2be2;color:#fff;font-weight:600;cursor:pointer;}
-.btn-back{margin:20px;padding:12px;width:calc(100% - 40px);border-radius:14px;border:none;background:var(--purple);color:#fff;font-weight:600;cursor:pointer;}
+body{background:var(--bg);color:var(--text);}
+header{padding:20px;}
+.card{margin:20px;background:linear-gradient(135deg,var(--card),#1a0f2e);border-radius:20px;padding:25px;text-align:center;}
+.btn{margin-top:20px;padding:14px 24px;border:none;border-radius:12px;background:var(--purple);color:#fff;font-weight:600;cursor:pointer;}
+.back{margin:20px;width:calc(100% - 40px);}
 </style>
 </head>
 <body>
 
 <header>
-<p>Dapatkan Saldo</p>
-<h1 id="username">User</h1>
+  <h3>Dapatkan Saldo</h3>
 </header>
 
 <div class="card">
-<p>Tekan tombol di bawah untuk klaim +200p setelah iklan selesai</p>
-<div id="adContainer">Memuat iklan...</div>
+  <p>Tonton iklan untuk mendapatkan <b>+200 saldo</b></p>
+  <button class="btn" onclick="showAd()">🎥 Tonton Iklan</button>
 </div>
 
-<button class="btn-back" onclick="goBack()">⬅ Kembali</button>
+<button class="btn back" onclick="goBack()">⬅ Kembali</button>
 
 <script>
 const tg = window.Telegram.WebApp;
 tg.expand();
 
-const user = tg.initDataUnsafe?.user;
-if(user) document.getElementById('username').innerText = user.first_name;
+function showAd(){
+  show_10391110().then(() => {
+      // ============================
+      // USER SELESAI NONTON IKLAN
+      // ============================
+      let saldo = parseInt(localStorage.getItem('saldo')) || 0;
+      saldo += 200;
+      localStorage.setItem('saldo', saldo);
 
-// =========================
-// Fungsi Klaim + Monetag
-// =========================
-function claimReward() {
-  let currentSaldo = parseInt(localStorage.getItem('saldo')) || 0;
-  currentSaldo += 200;
-  localStorage.setItem('saldo', currentSaldo);
-
-  tg.HapticFeedback.impactOccurred('medium');
-  tg.showAlert("Saldo +200p berhasil ditambahkan!");
-  goBack();
-}
-
-// =========================
-// Load Iklan Monetag
-// =========================
-function loadAd() {
-  // Ganti dengan ID block Monetag kamu
-  const adBlockId = '10391110';
-  const adContainer = document.getElementById('adContainer');
-
-  // Tampilkan iklan Monetag
-  TL.show_10391110('adContainer', { 
-    onComplete: claimReward // otomatis klaim
+      tg.HapticFeedback.impactOccurred('medium');
+      tg.showAlert('Saldo +200 berhasil ditambahkan!');
+      goBack();
   });
 }
 
-// =========================
-// Tombol Back
-// =========================
-function goBack() {
+function goBack(){
   window.location.href = 'index.html';
 }
-
-window.onload = loadAd;
 </script>
 
 </body>

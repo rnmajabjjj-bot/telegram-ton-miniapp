@@ -1,61 +1,61 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dapatkan Saldo</title>
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <meta charset="UTF-8">
+  <title>Dapatkan Saldo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-<style>
-body {
-  background:#000;
-  color:#fff;
-  font-family:Inter,sans-serif;
-}
-.card {
-  background:#111;
-  border:1px solid #8a2be2;
-  border-radius:16px;
-  padding:20px;
-  margin:15px;
-}
-button {
-  width:100%;
-  padding:12px;
-  border:none;
-  border-radius:12px;
-  background:#8a2be2;
-  color:white;
-  font-weight:600;
-}
-</style>
+  <style>
+    body {
+      background:#000;
+      color:#fff;
+      font-family:Arial;
+      padding:20px;
+    }
+    h2 { color:#8a2be2; }
+    .card {
+      background:#111;
+      border:1px solid #333;
+      border-radius:14px;
+      padding:20px;
+      margin-top:15px;
+    }
+    button {
+      width:100%;
+      padding:15px;
+      margin-top:15px;
+      border:none;
+      border-radius:12px;
+      background:#8a2be2;
+      color:#fff;
+      font-weight:bold;
+      font-size:16px;
+    }
+  </style>
 </head>
-
 <body>
 
-<h2 style="padding:15px">🎯 Dapatkan Saldo</h2>
+<h2>Dapatkan Saldo</h2>
 
 <div class="card">
-  <p>📺 Tonton Iklan</p>
-  <small>Reward: Rp 500</small><br><br>
-  <button onclick="claim()">Mulai</button>
-</div>
-
-<div class="card">
-  <p>👥 Undang Teman</p>
-  <small>Reward: Rp 1.000</small><br><br>
-  <button onclick="claim()">Bagikan</button>
+  <p>Tonton iklan untuk mendapatkan saldo DANA</p>
+  <button onclick="watchAds()">🎥 Tonton Iklan</button>
 </div>
 
 <script>
-const tg = Telegram.WebApp;
-tg.expand();
+  const tg = window.Telegram.WebApp;
+  tg.expand();
 
-function claim(){
-  tg.HapticFeedback.impactOccurred('medium');
-  tg.showAlert('Reward berhasil ditambahkan (demo)');
-}
+  tg.BackButton.show();
+  tg.BackButton.onClick(() => {
+    window.location.href = 'index.html';
+  });
+
+  function watchAds() {
+    tg.showAlert('Iklan diputar (demo)');
+  }
 </script>
 
 </body>
-                     </html>
+</html>

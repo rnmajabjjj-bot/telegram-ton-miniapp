@@ -2,59 +2,91 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <title>Dapatkan Saldo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dapatkan Saldo</title>
+
+  <!-- Telegram WebApp -->
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
   <style>
-    body {
-      background:#000;
-      color:#fff;
-      font-family:Arial;
-      padding:20px;
+    :root {
+      --bg: #000000;
+      --card: #111111;
+      --purple: #8a2be2;
+      --text: #ffffff;
+      --text-dim: #aaaaaa;
     }
-    h2 { color:#8a2be2; }
-    .card {
-      background:#111;
-      border:1px solid #333;
-      border-radius:14px;
-      padding:20px;
-      margin-top:15px;
-    }
-    button {
-      width:100%;
-      padding:15px;
-      margin-top:15px;
-      border:none;
-      border-radius:12px;
-      background:#8a2be2;
-      color:#fff;
-      font-weight:bold;
-      font-size:16px;
-    }
+
+    * { margin:0; padding:0; box-sizing:border-box; font-family:'Inter',sans-serif; }
+    body { background: var(--bg); color: var(--text); padding-bottom:90px; }
+
+    header { padding:20px; display:flex; justify-content:space-between; align-items:center; }
+    header h1 { font-size:1.1rem; }
+    header p { font-size:0.8rem; color: var(--text-dim); }
+
+    .card { margin:15px 20px; background: linear-gradient(135deg,var(--card),#1a0f2e); border-radius:20px; padding:25px; text-align:center; }
+    #adContainer { margin-top:20px; min-height:200px; border:1px solid var(--purple); border-radius:16px; background:#1a0f2e; display:flex; flex-direction:column; align-items:center; justify-content:center; color:var(--text-dim); font-size:0.9rem; }
+
+    .btn-claim { margin-top:20px; padding:12px 25px; border:none; border-radius:10px; background:#8a2be2; color:#fff; font-weight:600; cursor:pointer; }
+
+    .btn-back { margin:20px; padding:12px; width:calc(100%-40px); border-radius:14px; border:none; background: var(--purple); color:#fff; font-weight:600; cursor:pointer; }
   </style>
 </head>
 <body>
 
-<h2>Dapatkan Saldo</h2>
+<header>
+  <p>Dapatkan Saldo</p>
+  <h1 id="username">User</h1>
+</header>
 
 <div class="card">
-  <p>Tonton iklan untuk mendapatkan saldo DANA</p>
-  <button onclick="watchAds()">🎥 Tonton Iklan</button>
+  <p>Tekan tombol di bawah untuk mendapatkan saldo Dana</p>
+  <div id="adContainer">Memuat iklan...</div>
 </div>
+
+<button class="btn-back" onclick="goBack()">⬅ Kembali</button>
 
 <script>
   const tg = window.Telegram.WebApp;
   tg.expand();
 
-  tg.BackButton.show();
-  tg.BackButton.onClick(() => {
-    window.location.href = 'index.html';
-  });
+  const user = tg.initDataUnsafe?.user;
+  const userId = user?.id || 0;
+  if(user) document.getElementById('username').innerText = user.first_name;
 
-  function watchAds() {
-    tg.showAlert('Iklan diputar (demo)');
+  const blockId = "int-20198";
+  let saldo = 0; // contoh saldo awal
+
+  function loadAd() {
+    const adContainer = document.getElementById("adContainer");
+    adContainer.innerHTML = `
+      <div style="padding:20px; color:#fff;">
+        Iklan AdsGram untuk blockId <strong>${blockId}</strong> ditampilkan di sini.
+        <button class="btn-claim" onclick="claimReward()">Claim Saldo +200p</button>
+      </div>
+    `;
   }
+
+  function claimReward() {
+    // Tambah saldo
+    saldo += 200;
+
+    // Beri feedback ke user
+    tg.HapticFeedback.impactOccurred('medium');
+    tg.showAlert("Saldo berhasil ditambahkan +200p!");
+
+    // Tutup iklan otomatis
+    goBack();
+  }
+
+  function goBack() {
+    window.history.back(); // kembali ke halaman sebelumnya (task)
+  }
+
+  window.onload = loadAd;
 </script>
 
 </body>
